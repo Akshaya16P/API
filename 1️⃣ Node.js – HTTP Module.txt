@@ -1,0 +1,195 @@
+1️⃣ Node.js – HTTP Module
+🔹 What is the http module?
+
+A core module in Node.js
+
+Used to create backend servers
+
+No installation required (built-in)
+
+🔹 How to Import
+Syntax	Code
+ES Module	import http from "http";
+CommonJS	const http = require("http");
+🔹 Steps to Create HTTP Server
+
+Import http module
+
+Create server using http.createServer()
+
+Use (req, res) to handle request & response
+
+Set status code + headers using res.writeHead()
+
+Send response using res.end()
+
+Listen to a port using server.listen()
+
+📌 Basic Example
+import http from "http";
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello! This is from HTTP server");
+});
+
+server.listen(7007, () => {
+  console.log("Server running at port 7007");
+});
+
+🔹 Useful req (Request) Properties
+Property	Use
+req.method	HTTP method (GET, POST, etc.)
+req.url	Route / Path ("/users")
+req.headers	Client request info
+🔹 Useful res (Response) Methods
+Method	Purpose
+res.writeHead()	Set status code + headers
+res.write()	Send data in chunks
+res.end()	End response and send data
+🌐 Manual Routing Example
+if (req.url === "/users") {
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ name: "John" }));
+} else {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello backend!");
+}
+
+🔹 Common Content Types
+Type	Header
+Text	text/plain
+HTML	text/html
+JSON	application/json
+❗ Why HTTP module becomes hard?
+
+Manual routing required
+
+No middleware support
+
+Not scalable for big projects
+
+📌 This is why we move to Express.js
+
+2️⃣ Routing Concept in HTTP
+
+(Based on your 2nd code)
+
+🔹 Code Example
+import http from 'http';
+
+const server = http.createServer((req, res) => {
+    console.log(req.method);
+    
+    if (req.url === "/users") {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ name: "John" }));
+    }
+    else {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello, This is backend project!!!!');
+    }
+});
+
+server.listen(7007, () => {
+    console.log("Server is listening on port 7007");
+});
+
+🔍 Concept Explained
+
+Routing: Handling different URLs with different responses
+
+if(req.url === "/users") → JSON response
+
+Otherwise → plain text response
+
+Logs HTTP method in terminal
+
+📌 Routing with http requires manual coding → more complexity
+
+3️⃣ Express.js Module
+🔹 What is Express?
+
+A Node.js web framework used for:
+✔ Easy routing
+✔ API development
+✔ Middleware support
+✔ Less code, clean structure
+
+📌 Must install using npm
+
+npm install express
+
+🔹 How to import Express
+Type	Code
+ES Module	import express from "express";
+CommonJS	const express = require("express");
+🔹 Express Server Steps
+
+1️⃣ Import express
+2️⃣ Create server: const app = express()
+3️⃣ Define routes: app.get()
+4️⃣ Send response using res.send()
+5️⃣ Listen to port: app.listen()
+
+📌 Express Example (Your Code)
+import express from 'express';
+
+const app = express();
+
+app.get('/users', (req, res) => {
+    res.send("hello this is from backend Akshaya");
+});
+
+app.get('/get-users', (req, res) => {
+    res.send("hello this is from backend AbhiRam");
+});
+
+app.listen(7007, () => {
+    console.log("Server running at 7007");
+});
+
+🔹 Express Routing
+HTTP Method	Usage
+app.get()	Retrieve data
+app.post()	Create new data
+app.put()	Update data
+app.delete()	Delete data
+🔹 Express Response Methods
+Method	Purpose
+res.send()	Send text/HTML
+res.json()	Send JSON
+res.status()	Set status code
+res.sendFile()	Send file
+🔹 Middleware Concept
+
+Middleware executes before response, used for:
+✔ Authentication
+✔ Parsing JSON data
+✔ Logging requests
+
+Example:
+
+app.use(express.json());
+
+✔ Why Express is better than HTTP module?
+Feature	http Module	Express.js
+Routing	Manual	Very easy
+Middleware	No support	Fully supported
+Scalability	Hard	Best for large apps
+Code Length	More	Short & clean
+
+📌 Express = Recommended for real backend development
+
+📎 Summary Table
+Concept	Purpose	Usage
+HTTP Module	Basic server creation	Small/basic apps
+Manual Routing	Check URL/path	Hard in big apps
+Express.js	Framework for servers	APIs, web apps
+🎯 Final Key Points
+
+Node.js provides http module to build servers
+
+Routing lets servers respond differently to different URLs
+
+Express.js is used to build modern, fast & scalable backend applications
