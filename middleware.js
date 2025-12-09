@@ -6,27 +6,24 @@ app.use(express.json());
 
 console.log("PUT route loaded!");
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => {//get means getting the data from backend to frontend
     res.send("api success");
 });
 
-app.get('/akshaya',(req,res)=>{
-    res.send("Akshaya");
-})
 app.put('/edit-user', (req, res) => {
     let mydata = req.body;
-    console.log("Received:", mydata);
+    console.log("Received:", mydata);//updating
     res.send("data edited successfully");
 });
 
 app.post('/add-user', (req, res) => {
     let data = req.body;
-    console.log("Received:", data);
+    console.log("Received:", data);//posting the data in the data base
     res.send("Data added");
 });
 
 app.delete('/delete-user', (req, res) => {
-    let data = req.body;   // data coming from frontend (ex: which user to delete)
+    let data = req.body;   // data coming from the backend (ex: which user to delete)
     console.log(data);
     // Logic to delete user from database goes here
     res.send("User deleted successfully");
