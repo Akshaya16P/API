@@ -1,0 +1,243 @@
+MVC: Model–View–Controller
+
+MVC is a software architectural pattern commonly used in backend web development to organize code and separate responsibilities. It helps make projects more scalable, maintainable, and easier to test.
+
+🔹 1. Model
+
+Represents data and business logic.
+
+Connects to the database, defines data structures, and handles rules like validation.
+
+Example tasks:
+
+Insert, update, delete records in DB
+
+Apply business rules (e.g., password hashing)
+
+📌 In Node.js (with Mongoose): Schema + database queries
+📌 In Laravel: Eloquent models
+
+🔹 2. View
+
+Responsible for presenting UI or output to the user.
+
+Usually returns HTML, JSON, or API responses.
+
+In pure backend APIs, the “view” is often just the response structure.
+
+📌 Example: HTML templates, JSON response objects
+
+🔹 3. Controller
+
+Acts as a middle layer between Model and View.
+
+Receives user requests → interacts with Model → sends response via View.
+
+Contains application logic (not business logic).
+
+📌 Example:
+
+Get request → call model to fetch data → return JSON
+
+How MVC Works (Flow)
+User Request → Controller → Model → Controller → View (Response to user)
+
+Example in Simpler Terms
+Layer	What it does	Example
+Model	Handles data	Getting user from DB
+Controller	Handles request	/login route logic
+View	Shows response	JSON: {message: "Success"}
+Benefits of MVC
+
+✔ Cleaner code structure
+✔ Easier teamwork (frontend & backend separation)
+✔ Better scalability for large apps
+✔ Unit testing becomes easier
+✔ Reusability of code
+
+Common MVC Frameworks
+Language	Framework
+Node.js	Express (with MVC structure), NestJS
+PHP	Laravel, CodeIgniter
+Python	Django (MTV but similar), Flask (when structured)
+Java	Spring MVC
+Ruby	Ruby on Rails
+==============
+request object methods
+
+1️⃣ res.send()
+
+Sends string, HTML, Buffer, or JSON as a response.
+
+Automatically detects the content type.
+
+Ends the response internally.
+
+📌 Example:
+
+res.send("Hello World");
+res.send("<h1>Welcome</h1>");
+res.send({ message: "OK" });
+
+
+✔ Best for simple text or when you don't care about format.
+❌ Not recommended for API responses (use res.json() instead)
+
+2️⃣ res.json()
+
+Sends JSON data specifically.
+
+Automatically sets Content-Type: application/json.
+
+📌 Example:
+
+res.json({
+  status: "success",
+  data: [1, 2, 3]
+});
+
+
+✔ Best for REST APIs
+✔ Automatically does JSON.stringify()
+❌ Only for JSON data
+
+3️⃣ res.status(code)
+
+Sets the HTTP status code (like 200, 404, 500)
+
+Must be followed by .send() or .json() to complete response
+
+📌 Example:
+
+res.status(404).send("Not Found");
+
+
+or
+
+res.status(201).json({ message: "Created" });
+
+🧠 Common Status Codes You’ll Use
+Code	Meaning	Example Use
+200	OK	Successful GET
+201	Created	Successful POST new item
+400	Bad Request	Invalid data from client
+401	Unauthorized	Missing/invalid login
+403	Forbidden	No permission
+404	Not Found	Resource not found
+500	Server Error	Internal backend failure
+⭐ Combining Them
+
+Most common pattern in APIs:
+
+res.status(200).json({
+  message: "Success",
+  user: { id: 5, name: "John" }
+});
+
+🔄 Difference Between send() and json()
+Feature	res.send()	res.json()
+Accepts various data types	✔	✖ (JSON only)
+Sets JSON header automatically	✖	✔
+Preferred for API responses	✖	✔
+
+Example difference:
+
+res.send({msg: "hi"});  // Content-Type: text/html (maybe)
+res.json({msg: "hi"});  // Content-Type: application/json
+
+🧩 Example showing all together
+app.get('/user/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (!id) {
+    return res.status(400).json({ error: "ID required" });
+  }
+
+  res.status(200).json({
+    id,
+    name: "Ram",
+    role: "Admin"
+  });
+});
+
+Bonus: Other Helpful Response Methods
+Method	Purpose
+res.sendStatus(code)	Sets code & sends standard message
+res.set(header, value)	Set custom headers
+res.end()	Ends response without sending body
+res.redirect(url)	Redirects client to another path
+
+Example:
+
+res.sendStatus(500);  // Sends "Internal Server Error"
+res.redirect("/login");  
+=============
+HTTP status codes
+
+🌐 HTTP Status Codes & Use Cases
+
+HTTP status codes are divided into 5 categories:
+
+Category	Range	Meaning
+1xx	100–199	Informational
+2xx	200–299	Success
+3xx	300–399	Redirection
+4xx	400–499	Client errors
+5xx	500–599	Server errors
+✅ 2xx – Success Responses
+Code	Meaning	Use Case Example
+200 OK	Request successful	GET request → fetch data
+201 Created	New resource created	POST request → add new user
+202 Accepted	Request accepted but processing later	Queues, async operations
+204 No Content	Success but no response body	DELETE request success
+🔄 3xx – Redirection Responses
+Code	Meaning	Use Case Example
+301 Moved Permanently	Resource moved forever	Domain changed redirect
+302 Found	Temporary redirect	Login redirect
+304 Not Modified	Client has cached version	Optimizing loading via cache
+⚠️ 4xx – Client Error Responses
+
+These indicate the client made a mistake.
+
+Code	Meaning	Use Case Example
+400 Bad Request	Invalid data sent	Missing fields in API request
+401 Unauthorized	Login/auth required	Missing/expired token
+403 Forbidden	Not allowed	Trying admin action with user role
+404 Not Found	Resource not found	Invalid endpoint or ID
+405 Method Not Allowed	Wrong HTTP method	Using POST instead of GET
+409 Conflict	Data conflict	Register user with existing email
+422 Unprocessable Entity	Validation failed	Required format incorrect
+💥 5xx – Server Error Responses
+
+These indicate server failed to process a valid request.
+
+Code	Meaning	Use Case Example
+500 Internal Server Error	Server crashed/bug	Code exception
+501 Not Implemented	Feature not supported	Route created but not yet coded
+502 Bad Gateway	Upstream server error	Reverse proxy issues
+503 Service Unavailable	Server overloaded / maintenance	Too many users, downtime
+504 Gateway Timeout	Upstream timeout	Server took too long to respond
+💡 Quick Cheat Sheet
+Situation	Best Status Code
+Everything OK	200
+New item added	201
+Resource deleted	204
+Client sent wrong data	400
+Not logged in	401
+Logged in but not enough permission	403
+URL or item not found	404
+Database/server error	500
+🧩 Example in Express.js
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
+  if (email !== "test@example.com") {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.status(200).json({ message: "Login successful" });
+});
