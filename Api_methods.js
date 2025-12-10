@@ -7,7 +7,7 @@ app.use(express.json());
 console.log("PUT route loaded!");
 
 app.get('/', (req, res) => {//get means getting the data from backend to frontend
-    res.send("api success");
+    // res.send("api success");
 });
 
 app.put('/edit-user', (req, res) => {
@@ -32,3 +32,6 @@ app.delete('/delete-user', (req, res) => {
 app.listen(7000, () => {
     console.log("Server running at port 7000");
 });
+
+
+

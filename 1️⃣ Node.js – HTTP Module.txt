@@ -70,7 +70,7 @@ No middleware support
 Not scalable for big projects
 
 📌 This is why we move to Express.js
-
+    
 2️⃣ Routing Concept in HTTP
 
 (Based on your 2nd code)
@@ -96,7 +96,6 @@ server.listen(7007, () => {
 });
 
 🔍 Concept Explained
-
 Routing: Handling different URLs with different responses
 
 if(req.url === "/users") → JSON response
