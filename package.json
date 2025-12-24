@@ -1,16 +1,15 @@
+
 {
   "name": "my_backend",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
-  "author": "Akshaya",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.2.1",
-    "express": "^5.2.1"
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.2"
   }
 }
+
