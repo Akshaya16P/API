@@ -1,10 +1,8 @@
 import student from "../models/studentsModels.js";
 
-// GET by params
 const getStudentByRoll = async (req, res) => {
   try {
     const { stdRoll } = req.params;
-
     const studentData = await student.findOne({
       stdRoll: Number(stdRoll)
     });
@@ -54,6 +52,38 @@ const getStudentsFilter = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const updateStudentByRoll = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const updatedStudent = await student.findOneAndUpdate(
+    //   { stdRoll: Number(stdRoll) },
+    //   req.body,
+    //   { new: true, runValidators: true }
+    // );
 
-export { getStudentByRoll, addStudents, getStudentsFilter };
+    // ✅ NEW METHOD (by MongoDB _id)
+    const updatedStudent = await student.findByIdAndUpdate(
+      id,                   // MongoDB _id from URL
+      { $set: req.body },   // safe update
+      { new: true, runValidators: true }
+    );
 
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json({
+      message: "Student updated successfully",
+      data: updatedStudent
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export {
+  getStudentByRoll,
+  addStudents,
+  getStudentsFilter,
+  updateStudentByRoll
+};
