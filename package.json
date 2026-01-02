@@ -3,13 +3,15 @@
   "name": "my_backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type":"module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "mongoose": "^9.0.2"
+
   }
 }
 
